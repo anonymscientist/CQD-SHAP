@@ -1,1 +1,0 @@
-These files are downloaded from the KNN-KG repository (https://github.com/zjunlp/KNN-KG/tree/main/dataset/FB15k-237).
