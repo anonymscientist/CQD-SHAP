@@ -82,6 +82,12 @@ class Dataset:
     
     def get_num_nodes(self):
         return len(self.id2node)
+    
+    def get_title_by_id(self, node_id):
+        node = self.get_node_by_id(node_id)
+        if node is not None:
+            return self.get_title_by_node(node)
+        return None
 
 class Node:
     def __init__(self, name: str, id: int, title: str):
