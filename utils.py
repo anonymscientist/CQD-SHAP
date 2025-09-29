@@ -104,3 +104,23 @@ def setup_logger(filename):
         logger.addHandler(file_handler)
     
     return logger
+
+def compute_rank(result, answer_complete, target_answer):
+    # Convert to sets for fast exclusion
+    answer_complete_set = set(answer_complete)
+
+    # Get a filtered version of result for each a_hard
+    result_index = list(result.index)
+
+    # Remove all other correct answers from ranking for this answer
+    filtered_exclude = answer_complete_set - {target_answer}
+    # Build mask once for speed
+    filtered_index = [x for x in result_index if x not in filtered_exclude]
+    rank = filtered_index.index(target_answer) + 1
+    
+    return rank
+
+def check_missing_link(reasoner, head, relation, target):
+    preds = reasoner.predict(head, relation, True, -1)
+    score = float(preds.loc[target]['score'])
+    return score != 1.0
