@@ -2,6 +2,8 @@
 
 This repository contains the code to reproduce the results from the paper "CQD-SHAP: Explainable Complex Query Answering with Shapley Values".
 
+**Google Colab Notebook:** You can test CQD-SHAP directly in the Google Colab environment using the following link: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/anonymscientist/CQD-SHAP/blob/main/example_usage.ipynb). Colab environment has already been set up with all the necessary packages we used in our experiments.
+
 ## Prerequisites
 
 ### Environment Setup
@@ -16,6 +18,12 @@ To activate the environment, use:
 
 ```bash
 conda activate xcqa
+```
+
+The list of required packages is provided in the `requirements.txt` file. You can install them using pip:
+
+```bash
+pip install -r requirements.txt
 ```
 
 ### Data Preparation
