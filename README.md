@@ -69,7 +69,7 @@ The result for necessary and sufficient explanations evaluation can be reproduce
 
 | Argument | Description | Value |
 |----------|-------------|-------|
-| `--KG` | The knowledge graph to use | `Freebase` (default) or `NELL` |
+| `--kg` | The knowledge graph to use | `Freebase` (default) or `NELL` |
 | `--query_type` | The type of query to evaluate(all if not specified) | `2p`, `3p`, `2i`, `3i`, `2u`, `pi` (i.e., 1p2i), `ip` (i.e., 2i1p), `up` (i.e., 2u1p) |
 | `--explanation` | The type of explanation to evaluate | `necessary` (default), `sufficient` |
 | `--method` | The method to use for generating explanations | `shapley` (default), `score`, `random`, `last`, `first` |
