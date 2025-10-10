@@ -3,6 +3,7 @@ from xcqa_torch import XCQA
 import pandas as pd
 from graph import Dataset
 import math
+from utils import get_num_atoms
 
 import numpy as np
 np.random.seed(42)
@@ -34,26 +35,8 @@ def value_function(xcqa: XCQA, query: Query, filtered_nodes: list, target_entity
     
 
 def shapley_value(xcqa: XCQA, query: Query, atom_idx: int, filtered_nodes: list,
-                  target_entity: int, qoi: str = 'rank', k: int = 10, t_norm: str = 'prod', t_conorm: str = 'min'):
-    num_atoms = 0
-    if query.query_type == '2p':
-        num_atoms = 2
-    elif query.query_type == '3p':
-        num_atoms = 3
-    elif query.query_type == '2i':
-        num_atoms = 2
-    elif query.query_type == '2u':
-        num_atoms = 2
-    elif query.query_type == '3i':
-        num_atoms = 3
-    elif query.query_type == 'pi':
-        num_atoms = 3
-    elif query.query_type == 'up':
-        num_atoms = 3
-    elif query.query_type == 'ip':
-        num_atoms = 3
-    else:
-        raise ValueError(f"Unsupported query type: {query.query_type}.")
+                  target_entity: int, qoi: str = 'rank', k: int = 10, t_norm: str = 'prod', t_conorm: str = 'prod'):
+    num_atoms = get_num_atoms(query.query_type)
 
     shapley_value = 0.0
     
@@ -94,3 +77,12 @@ def shapley_value(xcqa: XCQA, query: Query, atom_idx: int, filtered_nodes: list,
     if xcqa.logging:
         print(f"Shapley value for atom {atom_idx}: {shapley_value}")
     return shapley_value
+
+def shapley_values(xcqa: XCQA, query: Query, filtered_nodes: list, target_entity: int, qoi: str = 'rank', k: int = 10,
+                   t_norm: str = 'prod', t_conorm: str = 'prod'):
+    num_atoms = get_num_atoms(query.query_type)
+    shapley_values = []
+    for atom_idx in range(num_atoms):
+        sv = shapley_value(xcqa, query, atom_idx, filtered_nodes, target_entity, qoi=qoi, k=k, t_norm=t_norm, t_conorm=t_conorm)
+        shapley_values.append(sv)
+    return shapley_values
