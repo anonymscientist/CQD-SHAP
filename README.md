@@ -69,19 +69,39 @@ The result for necessary and sufficient explanations evaluation can be reproduce
 
 | Argument | Description | Value |
 |----------|-------------|-------|
-| `query_type` | The type of query to evaluate | `2p`, `3p`, `2i`, `3i`, `2u`, `pi` (i.e., 1p2i), `ip` (i.e., 2i1p), `up` (i.e., 2u1p) |
-| `--data_dir` | The directory where the data is stored | e.g. `data/FB15k-237` (default) or `data/NELL995` |
-| `--model_path` | The path to the pre-trained model | e.g. `models/FB15k-model-rank-1000-epoch-100-1602520745.pt` (default) or `models/NELL-model-rank-1000-epoch-100-1602499096.pt` |
+| `--KG` | The knowledge graph to use | `Freebase` (default) or `NELL` |
+| `--query_type` | The type of query to evaluate(all if not specified) | `2p`, `3p`, `2i`, `3i`, `2u`, `pi` (i.e., 1p2i), `ip` (i.e., 2i1p), `up` (i.e., 2u1p) |
+| `--explanation` | The type of explanation to evaluate | `necessary` (default), `sufficient` |
+| `--method` | The method to use for generating explanations | `shapley` (default), `score`, `random`, `last`, `first` |
 | `--k` | Value of k for top-k beam search | Default is `10` |
 | `--t-norm` | The t-norm to use for evaluation | `prod` (default), `min`, `max` |
-| `--t-conorm` | The t-conorm to use for evaluation | `prob` (default), `max`, `min` |
+| `--t-conorm` | The t-conorm to use for evaluation | `prod` (default), `max`, `min` |
 | `--split` | The data split to use for evaluation | `test` (default), `valid` |
-| `--method` | The method to use for generating explanations | `shapley` (default), `score`, `random`, `last`, `first` |
-| `--explanation` | The type of explanation to evaluate | `necessary` (default), `sufficient` |
-| `--output_path` | The path to save the evaluation results | Default is `output.json` |
+| `--output_path` | The path to save the evaluation results | Default is `eval` |
+| `--log_file` | The path to save the log file | Default is `evaluation.log` |
+| `--data_dir` | The directory where the data is stored (not required if using default KGs) | e.g. `data/FB15k-237` or `data/NELL` |
+| `--model_path` | The path to the pre-trained model (not required if using default KGs) | e.g. `models/FB15k-model-rank-1000-epoch-100-1602520745.pt` or `models/NELL-model-rank-1000-epoch-100-1602499096.pt` |
 
-An example command to run the evaluation for necessary explanations on 2p queries using the NELL dataset is as follows:
+To produce the CQD-SHAP rows in Table 2 of the paper, you can run the following commands for each evaluation scenario and dataset combination:
 
+### Necessary evaluation (FB15k-237 dataset)
 ```bash
-python evaluation.py 2p --k 10 --method shapley --explanation necessary --output_path eval/nell/necessary_2p_shapley.json --data_dir data/NELL995 --model_path models/NELL-model-rank-1000-epoch-100-1602499096.pt
+python evaluation.py --kg Freebase --explanation necessary --method shapley
 ```
+
+### Necessary evaluation (NELL dataset)
+```bash
+python evaluation.py --kg NELL --explanation necessary --method shapley
+```
+
+### Sufficient evaluation (FB15k-237 dataset)
+```bash
+python evaluation.py --kg Freebase --explanation sufficient --method shapley
+```
+
+### Sufficient evaluation (NELL dataset)
+```bash
+python evaluation.py --kg NELL --explanation sufficient --method shapley
+```
+
+You can change the `--method` argument to `score`, `random`, `last`, or `first` to reproduce the other baselines.
